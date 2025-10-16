@@ -40,3 +40,7 @@ Exception: Error al descargar la imagen: 429[0m
 [30;1m2025-10-16 23:06:16[0m [40;1mDEBUG   [0m [35mdiscord.gateway[0m For Shard ID None: WebSocket Event: {'t': None, 's': None, 'op': 11, 'd': None}
 [30;1m2025-10-16 23:06:57[0m [40;1mDEBUG   [0m [35mdiscord.gateway[0m Keeping shard ID None websocket alive with sequence 5.
 [30;1m2025-10-16 23:06:57[0m [40;1mDEBUG   [0m [35mdiscord.gateway[0m For Shard ID None: WebSocket Event: {'t': None, 's': None, 'op': 11, 'd': None}
+[30;1m2025-10-16 23:07:39[0m [40;1mDEBUG   [0m [35mdiscord.gateway[0m Keeping shard ID None websocket alive with sequence 5.
+[30;1m2025-10-16 23:07:39[0m [40;1mDEBUG   [0m [35mdiscord.gateway[0m For Shard ID None: WebSocket Event: {'t': None, 's': None, 'op': 11, 'd': None}
+[30;1m2025-10-16 23:08:20[0m [40;1mDEBUG   [0m [35mdiscord.gateway[0m Keeping shard ID None websocket alive with sequence 5.
+[30;1m2025-10-16 23:08:20[0m [40;1mDEBUG   [0m [35mdiscord.gateway[0m For Shard ID None: WebSocket Event: {'t': None, 's': None, 'op': 11, 'd': None}
