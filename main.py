@@ -56,7 +56,7 @@ imagenes_tsubasa = [
 ]
 
 # ID del canal donde enviar las imágenes
-CANAL_ID = 123456789012345678  # Reemplaza con el ID real de tu canal
+CANAL_ID = 440013645502742560  # Reemplaza con el ID real de tu canal
 
 # Evento: cuando el bot está listo
 @bot.event
