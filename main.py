@@ -1,8 +1,9 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import logging
 from dotenv import load_dotenv
 import os
+import random
 
 # Cargar el token desde .env
 load_dotenv()
@@ -19,10 +20,6 @@ intents.members = True
 # Inicializar el bot
 bot = commands.Bot(command_prefix='&', intents=intents)
 
-# Evento: cuando el bot está listo
-@bot.event
-async def on_ready():
-    print(f"Tamos ready, {bot.user.name}")
 
 # Evento: cuando alguien se une al servidor
 @bot.event
@@ -48,6 +45,44 @@ async def on_message(message):
             print(f"❌ Error HTTP: {e}")
 
     await bot.process_commands(message)
+
+# Lista de URLs de imágenes de Tsubasa Hanekawa
+imagenes_tsubasa = [
+    "https://i.imgur.com/Q3Yzft0.jpg",
+    "https://i.imgur.com/u1QcXli.jpeg",
+    "https://i.imgur.com/m7N6Y8Q.jpg",
+    "https://i.imgur.com/9lU4jM0.jpeg"
+    # Agrega más enlaces si quieres
+]
+
+# ID del canal donde enviar las imágenes
+CANAL_ID = 123456789012345678  # Reemplaza con el ID real de tu canal
+
+# Evento: cuando el bot está listo
+@bot.event
+async def on_ready():
+    print(f"✅ Bot listo como {bot.user}")
+    subir_imagen_tsubasa.start()  # Inicia la tarea una vez que el bot esté listo
+
+@tasks.loop(hours=24)
+async def subir_imagen_tsubasa():
+    canal = bot.get_channel(CANAL_ID)
+    if canal:
+        url = random.choice(imagenes_tsubasa)
+        await canal.send("Hora de apreciar a Tsubasa Hanekawa 💜", file=discord.File(await descargar_imagen(url), filename="tsubasa.jpg"))
+    else:
+        print("❌ No se encontró el canal.")
+
+async def descargar_imagen(url):
+    import aiohttp
+    import io
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            if resp.status != 200:
+                raise Exception(f"Error al descargar la imagen: {resp.status}")
+            data = await resp.read()
+            return io.BytesIO(data)
+
 
 # ✅ Ejecutar el bot (siempre al final del archivo)
 bot.run(TOKEN, log_handler=handler, log_level=logging.DEBUG)
