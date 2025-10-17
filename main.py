@@ -48,11 +48,8 @@ async def on_message(message):
 
 # Lista de URLs de imágenes de Tsubasa Hanekawa
 imagenes_tsubasa = [
-    "https://i.imgur.com/Q3Yzft0.jpg",
-    "https://i.imgur.com/u1QcXli.jpeg",
-    "https://i.imgur.com/m7N6Y8Q.jpg",
-    "https://i.imgur.com/9lU4jM0.jpeg"
-    # Agrega más enlaces si quieres
+    "imgs/1.jpeg",
+    "imgs/hankwa2.png"
 ]
 
 # ID del canal donde enviar las imágenes
@@ -68,20 +65,11 @@ async def on_ready():
 async def subir_imagen_tsubasa():
     canal = bot.get_channel(CANAL_ID)
     if canal:
-        url = random.choice(imagenes_tsubasa)
-        await canal.send("Hora de apreciar a Tsubasa Hanekawa 💜", file=discord.File(await descargar_imagen(url), filename="tsubasa.jpg"))
+        imagen_path = random.choice(imagenes_tsubasa)
+        await canal.send("Hora de apreciar a Tsubasa Hanekawa 💜", file=discord.File(imagen_path))
+        print(f"✅ Imagen enviada: {imagen_path}")
     else:
         print("❌ No se encontró el canal.")
-
-async def descargar_imagen(url):
-    import aiohttp
-    import io
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
-            if resp.status != 200:
-                raise Exception(f"Error al descargar la imagen: {resp.status}")
-            data = await resp.read()
-            return io.BytesIO(data)
 
 
 # ✅ Ejecutar el bot (siempre al final del archivo)
