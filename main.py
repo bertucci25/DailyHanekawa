@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands, tasks
+from keep_alive import keep_alive
 import logging
 from dotenv import load_dotenv
 import os
@@ -46,31 +47,40 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-# Lista de URLs de imágenes de Tsubasa Hanekawa
-imagenes_tsubasa = [
-    "imgs/1.jpeg",
-    "imgs/hankwa2.png"
-]
-
 # ID del canal donde enviar las imágenes
-CANAL_ID = 440013645502742560  # Reemplaza con el ID real de tu canal
+CANAL_ID = 440013645502742560  # Reemplaza con tu canal real
+
+# Carpeta donde están las imágenes
+IMAGENES_DIR = "imgs"
 
 # Evento: cuando el bot está listo
 @bot.event
 async def on_ready():
     print(f"✅ Bot listo como {bot.user}")
-    subir_imagen_tsubasa.start()  # Inicia la tarea una vez que el bot esté listo
+    subir_imagen_tsubasa.start()
 
 @tasks.loop(hours=24)
 async def subir_imagen_tsubasa():
     canal = bot.get_channel(CANAL_ID)
-    if canal:
-        imagen_path = random.choice(imagenes_tsubasa)
-        await canal.send("Hora de apreciar a Tsubasa Hanekawa 💜", file=discord.File(imagen_path))
-        print(f"✅ Imagen enviada: {imagen_path}")
-    else:
+    if not canal:
         print("❌ No se encontró el canal.")
+        return
 
+    # Filtra solo archivos válidos (jpg, png, etc.)
+    imagenes = [f for f in os.listdir(IMAGENES_DIR) if f.lower().endswith(('.jpg', '.jpeg', '.png', '.gif'))]
+
+    if not imagenes:
+        print("⚠️ No hay imágenes en la carpeta.")
+        return
+
+    imagen_elegida = random.choice(imagenes)
+    ruta_completa = os.path.join(IMAGENES_DIR, imagen_elegida)
+
+    await canal.send("Hora de apreciar a Tsubasa Hanekawa 💜", file=discord.File(ruta_completa))
+    print(f"✅ Imagen enviada: {ruta_completa}")
+
+
+keep_alive()
 
 # ✅ Ejecutar el bot (siempre al final del archivo)
 bot.run(TOKEN, log_handler=handler, log_level=logging.DEBUG)
