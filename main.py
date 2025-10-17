@@ -50,7 +50,7 @@ async def subir_imagen_tsubasa():
     imagen_elegida = random.choice(imagenes)
     ruta_completa = os.path.join(IMAGENES_DIR, imagen_elegida)
 
-    await canal.send("Hora de apreciar a Tsubasa Hanekawa 💜", file=discord.File(ruta_completa))
+    await canal.send("Hora de apreciar a Hanekawa 💜", file=discord.File(ruta_completa))
     print(f"✅ Imagen enviada: {ruta_completa}")
 
 
